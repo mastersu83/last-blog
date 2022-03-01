@@ -68,9 +68,7 @@ const Profile = ({ toggleLoginPopup }) => {
     dispatch(
       getAllPostsUserThunk(posts.currentPage, posts.pageSize, auth.user._id)
     );
-    if (comments.comments.length) {
-    }
-  }, [comments.comments.length]);
+  }, [comments.commentsUser.length]);
 
   return (
     <div className="profile">
