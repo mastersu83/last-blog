@@ -93,9 +93,13 @@ export const deletePostThunk =
   };
 
 export const patchPostThunk =
-  (data, currentPage, pageSize, id) => async (dispatch) => {
+  ({ title, description, file, text }, currentPage, pageSize, id) =>
+  async (dispatch) => {
     try {
-      await postsApi.patchPost(data, id);
+      const formData = new FormData();
+      formData.append("file", file[0]);
+      let imgUrl = await postsApi.uploadFile(formData);
+      await postsApi.patchPost({ title, description, imgUrl, text }, id);
       dispatch(getAllPostsThunk(currentPage, pageSize, id));
     } catch (e) {
       console.log(e.message);

@@ -91,11 +91,12 @@ export const postsApi = {
   deletePost(id) {
     return instance.delete(`posts/` + id);
   },
-  patchPost({ title, description, text }, id) {
+  patchPost({ title, description, imgUrl, text }, id) {
     return instance.patch(`posts/` + id, {
       title: title,
       description: description,
       text: text,
+      photoUrl: imgUrl,
     });
   },
   searchPost(search) {
