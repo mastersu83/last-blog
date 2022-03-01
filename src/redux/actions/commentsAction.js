@@ -30,10 +30,17 @@ export const editOrCreateCommentFlagAction = (flag) => ({
   payload: flag,
 });
 
+export const isFetchingAction = (isFetching) => ({
+  type: "TOGGLE_IS_FETCHING",
+  payload: isFetching,
+});
+
 export const getPostCommentsThunk = (postId) => async (dispatch) => {
   try {
+    dispatch(isFetchingAction(true));
     let resp = await commentsApi.getPostComments(postId);
     dispatch(getPostCommentsAction(resp.data));
+    dispatch(isFetchingAction(false));
   } catch (e) {
     console.log(e.message);
   }

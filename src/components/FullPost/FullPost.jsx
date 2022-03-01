@@ -109,7 +109,7 @@ const FullPost = () => {
           Комментарии ({comments.totalPostComments})
         </div>
         <div className="full__postComments">
-          {!comments.comments.length ? (
+          {auth.isFetching ? (
             <>
               <Preloader image={false} text={true} /> <Divider />
               <Preloader image={false} text={true} />

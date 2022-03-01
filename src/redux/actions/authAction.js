@@ -13,11 +13,6 @@ export const setErrorText = (errorText) => ({
   payload: errorText,
 });
 
-export const isFetchingAction = (isFetching) => ({
-  type: "TOGGLE_IS_FETCHING",
-  payload: isFetching,
-});
-
 export const isRegisterThunk =
   (email, password, fullName) => async (dispatch) => {
     try {
