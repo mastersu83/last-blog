@@ -39,7 +39,7 @@ const App = () => {
     <div className="root">
       <div className={`main ${toggleMenu ? "main__move" : ""}`}>
         <Route exact path="/posts/:id">
-          <FullPost isFetching={auth.isFetching} />
+          <FullPost />
         </Route>
         <Route exact path="/">
           <About />

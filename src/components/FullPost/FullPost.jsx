@@ -12,6 +12,7 @@ import {
   getPostCommentsThunk,
   patchCommentThunk,
 } from "../../redux/actions/commentsAction";
+import { Divider } from "antd";
 
 const schema = yup
   .object({
@@ -19,11 +20,10 @@ const schema = yup
       .string()
       .min(3, "Минимум 3 символа")
       .required("Это обязательное поле"),
-    // file: yup.required("Это обязательное поле"),
   })
   .required();
 
-const FullPost = ({ isFetching }) => {
+const FullPost = () => {
   const dispatch = useDispatch();
   const [editComment, setEditComment] = useState(true);
 
@@ -78,12 +78,12 @@ const FullPost = ({ isFetching }) => {
   ));
 
   return (
-    <>
-      {isFetching ? (
-        <Preloader text="Идет загрузка..." />
-      ) : (
-        <div className="full__post">
-          <div className="full__postTitleBox">
+    <div className="full__post">
+      <div className="full__postTitleBox">
+        {!fullPost.photoUrl ? (
+          <Preloader text={false} loading={true} />
+        ) : (
+          <>
             <img
               className="full__postImage"
               src={`https://suren-blog.herokuapp.com` + fullPost.photoUrl}
@@ -100,56 +100,63 @@ const FullPost = ({ isFetching }) => {
               <div className="full__postTitle">{fullPost.title}</div>
               <div className="full__postDesc">{fullPost.description}</div>
             </div>
+          </>
+        )}
+      </div>
+      <div className="full__postContainer">
+        <div className="full__postText">{fullPost.text}</div>
+        <div className="full__comments">
+          Комментарии ({comments.totalPostComments})
+        </div>
+        <div className="full__postComments">
+          {!comments.comments.length ? (
+            <>
+              <Preloader image={false} text={true} /> <Divider />
+              <Preloader image={false} text={true} />
+            </>
+          ) : (
+            comment
+          )}
+        </div>
+        <div className="full__postAddComment">
+          <div className="full__addCommentTitle">
+            {editComment ? "Добавить комментарий" : "Редактировать комментарий"}
           </div>
-          <div className="full__postContainer">
-            <div className="full__postText">{fullPost.text}</div>
-            <div className="full__comments">
-              Комментарии ({comments.totalPostComments})
-            </div>
-            <div className="full__postComments">{comment}</div>
-            <div className="full__postAddComment">
-              <div className="full__addCommentTitle">
-                {editComment
-                  ? "Добавить комментарий"
-                  : "Редактировать комментарий"}
-              </div>
-              <span>{errors.text?.message}</span>
+          <span>{errors.text?.message}</span>
 
-              <textarea
-                {...register("text")}
-                className="full__addCommentInput"
-                defaultValue=""
-              />
+          <textarea
+            {...register("text")}
+            className="full__addCommentInput"
+            defaultValue=""
+          />
+          <div className="full__addCommentBtn">
+            {editComment ? (
+              <button
+                onClick={handleSubmit(onSubmit)}
+                className="yellow__button"
+              >
+                Отправить
+              </button>
+            ) : (
               <div className="full__addCommentBtn">
-                {editComment ? (
-                  <button
-                    onClick={handleSubmit(onSubmit)}
-                    className="yellow__button"
-                  >
-                    Отправить
-                  </button>
-                ) : (
-                  <div className="full__addCommentBtn">
-                    <button
-                      onClick={handleSubmit(onSubmit)}
-                      className="yellow__button"
-                    >
-                      Сохранить
-                    </button>
-                    <button
-                      onClick={onCancelEditComment}
-                      className="yellow__button"
-                    >
-                      Отмена
-                    </button>
-                  </div>
-                )}
+                <button
+                  onClick={handleSubmit(onSubmit)}
+                  className="yellow__button"
+                >
+                  Сохранить
+                </button>
+                <button
+                  onClick={onCancelEditComment}
+                  className="yellow__button"
+                >
+                  Отмена
+                </button>
               </div>
-            </div>
+            )}
           </div>
         </div>
-      )}
-    </>
+      </div>
+    </div>
   );
 };
 

@@ -4,7 +4,7 @@ import Alert from "../Alert/Alert";
 import Header from "../Header/Header";
 import Preloader from "../Preloader/Preloader";
 import Post from "../Post/Post";
-import { Pagination } from "antd";
+import { Divider, Pagination } from "antd";
 import {
   getAllPostsThunk,
   getAllPostsUserThunk,
@@ -66,22 +66,25 @@ const Posts = ({ toggleLoginPopup }) => {
         currentPostId={posts.currentPostId}
         toggleLoginPopup={toggleLoginPopup}
       />
-      {!posts.posts.length ? (
-        <Preloader text="Ничего не найдено" />
-      ) : (
-        <>
-          <div className="posts__list">{post}</div>
-          <div className="posts__pagination">
-            <Pagination
-              total={posts.totalPosts}
-              current={posts.currentPage}
-              showQuickJumper
-              pageSize={posts.pageSize}
-              onChange={onPageChanged}
-            />
+      <div className="posts__list">
+        {!posts.posts.length ? (
+          <div>
+            <Preloader image={true} text={true} /> <Divider />{" "}
+            <Preloader text={true} image={true} />
           </div>
-        </>
-      )}
+        ) : (
+          post
+        )}
+      </div>
+      <div className="posts__pagination">
+        <Pagination
+          total={posts.totalPosts}
+          current={posts.currentPage}
+          showQuickJumper
+          pageSize={posts.pageSize}
+          onChange={onPageChanged}
+        />
+      </div>
     </div>
   );
 };

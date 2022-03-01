@@ -1,10 +1,17 @@
 import React from "react";
+import { Divider, Skeleton } from "antd";
+import loadingGif from "../../assets/img/810.gif";
 
-const Preloader = ({ text }) => {
+const Preloader = ({ image, text, loading }) => {
   return (
-    <div>
-      <h1>{text}</h1>
-    </div>
+    <>
+      <div className="skeleton">
+        {text && <Skeleton active style={{ width: "70%" }} />}
+        {image && <Skeleton.Image style={{ height: "100%" }} />}
+        {loading && <img src={loadingGif} alt="" />}
+      </div>
+      <Divider />
+    </>
   );
 };
 
